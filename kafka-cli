@@ -1,0 +1,28 @@
+# start zookeeper+kafka server
+bin/windows/zookeeper-server-start.bat config/zookeeper.properties
+bin/windows/kafka-server-start.bat config/server.properties
+
+# create topic
+bin/windows/kafka-topics.bat --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic task1-1
+bin/windows/kafka-topics.bat --bootstrap-server localhost:9092 --list
+bin/windows/kafka-topics.bat --bootstrap-server localhost:9092 --topic task1-1 --describe
+bin/windows/kafka-topics.bat --bootstrap-server localhost:9092 --topic task1-1 --delete
+
+# 1
+bin/windows/kafka-console-producer.bat --broker-list localhost:9092 --topic task1-1
+bin/windows/kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic task1-2 --from-beginning
+test-message
+
+# 2
+bin/windows/kafka-console-producer.bat --broker-list localhost:9092 --topic task2
+01234567890123 1234 a0 a1234567890123
+
+# 3
+bin/windows/kafka-console-producer.bat --broker-list localhost:9092 --topic task3-1
+10: one message
+bin/windows/kafka-console-producer.bat --broker-list localhost:9092 --topic task3-2
+10: another message
+
+# 4
+bin/windows/kafka-console-producer.bat --broker-list localhost:9092 --topic task4
+{"name":"john","company":"comp","position":"pos","experience":5}
